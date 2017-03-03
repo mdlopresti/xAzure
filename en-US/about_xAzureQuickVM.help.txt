@@ -1,0 +1,29 @@
+PARAM Name
+Specifies the name of the virtual machine.
+
+PARAM Ensure
+Specifies whether the Azure VM should be present or absent.
+
+PARAM ImageName
+Specifies the name of the operating system image to use to create the operating system disk.
+
+PARAM ServiceName
+Specifies the new or existing service name.
+
+PARAM Linux
+Creates a Linux virtual machine.
+
+PARAM LinuxUser
+Specifies the Linux administrative account name to create. 
+
+PARAM Windows
+Creates a Windows virtual machine.
+
+PARAM AdminUsername
+Specifies the name for the administrative account to create.
+
+PARAM Password
+Specifies the password for the administrative account.
+
+PARAM InstanceSize
+Specifies the size of the instance.   For a list of virtual machine sizes, see http://msdn.microsoft.com/library/azure/dn197896.aspx

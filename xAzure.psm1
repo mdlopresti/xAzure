@@ -111,3 +111,111 @@ class xAzureAffinityGroup {
         return $this
     }
 }
+
+[DscResource()]
+class xAzureQuickVM {
+    [DscProperty(key)]
+    [string]$Name
+
+    [DscProperty()]
+    [ensure]$Ensure
+
+    [DscProperty()]
+    [string]$ImageName
+
+    [DscProperty(Mandatory)]
+    [string]$ServiceName
+
+    [DscProperty()]
+    [bool]$Linux
+
+    [DscProperty()]
+    [string]$LinuxUser
+
+    [DscProperty()]
+    [bool]$Windows
+
+    [DscProperty()]
+    [string]$AdminUsername
+
+    [DscProperty()]
+    [string]$Password
+
+    [DscProperty()]
+    [string]$InstanceSize
+
+    [void] Set() {
+        # Removing parameters from output
+        $PSBoundParameters.Remove('Ensure') | out-null
+        $PSBoundParameters.Remove('Debug') | out-null
+        $PSBoundParameters.Remove('ErrorAction') | out-null
+
+        switch ($this.Ensure) {
+            'Present' {
+                # Native Set cmdlet
+                Write-Verbose "Creating VM `"$this.Name`" in Microsoft Azure."
+                Write-Verbose 'Please be patient as the operation completes.'
+                $CurrentSubscription = Get-AzureSubscription -Current
+                Write-Verbose "The Azure subscription ID is $($CurrentSubscription.SubscriptionID)"
+                $PSBoundParameters['Password'] = $this.Password.GetNetworkCredential().Password
+                New-AzureQuickVM @PSBoundParameters
+            }
+            'Absent' {
+                # Native Set cmdlet
+                Write-Verbose "Removing VM `"$this.Name`" from Azure."
+                Write-Verbose 'Please be patient as the operation completes.'
+                $CurrentSubscription = Get-AzureSubscription -Current
+                Write-Verbose "The Azure subscription ID is $($CurrentSubscription.SubscriptionID)"
+                Remove-AzureVM -Name $this.Name -ServiceName $this.ServiceName -DeleteVHD
+            }
+        }
+    }
+
+    [bool] Test() {
+        $bool = $true
+        # Output from Get-TargetResource
+        $Get = Get-TargetResource -Name $this.Name -ServiceName $this.ServiceName -ErrorAction SilentlyContinue 
+
+        switch ($this.Ensure) {
+            'Present'{
+                $bool = $true
+            }
+            'Absent'{
+                $bool = $false
+            }
+        }
+
+        if ($this.Name -ne $Get.Name -AND $this.ServiceName -ne $Get.ServiceName) {
+            switch ($this.Ensure) {
+                'Present'{
+                    $bool = $false
+                }
+                'Absent'{
+                    $bool = $true
+                }
+            }
+            write-verbose 'The VM could not be found in Azure.'
+        }
+
+        return $bool
+    }
+
+    [xAzureQuickVM] Get() {
+        $CurrentSubscription = Get-AzureSubscription -Current
+        Write-Verbose "The Azure subscription ID is $($CurrentSubscription.SubscriptionID)"
+
+        # Native Get cmdlet
+        $Get = Get-AzureVM -Name $this.Name -ServiceName $this.ServiceName
+
+        # Build Hashtable from native cmdlet values
+        If ($Get.Name -eq $this.Name) {
+            'Present'
+        } Else {
+            'Absent'
+        }
+        $this.Name = $Get.Name
+        $this.ServiceName = $Get.ServiceName
+            
+        return $this
+    }
+}
