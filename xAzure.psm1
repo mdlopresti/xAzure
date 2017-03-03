@@ -4,7 +4,7 @@ enum Ensure {
 } 
 
 [DscResource()]
-class MSFT_xAzureAffinityGroup {
+class xAzureAffinityGroup {
     [DscProperty(key)]
     [string]$Name
 
