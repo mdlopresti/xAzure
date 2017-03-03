@@ -1,6 +1,4 @@
-Import-Module "$(Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path))\Jones.psm1"
-
-
+Import-Module "$(Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path))\xAzure.psm1"
 
 ##############################
 # Script Analyzer tests
