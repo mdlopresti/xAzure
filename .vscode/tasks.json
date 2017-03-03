@@ -11,7 +11,7 @@
             "taskName": "Test",
             "isTestCommand": true,
             "args": [
-                "-ExecutionPolicy","RemoteSigned","-Command","Invoke-Pester -CodeCoverage 'C:\\Program Files\\WindowsPowerShell\\Module\\Jones\\Jones.psm1' -Passthru"
+                "-ExecutionPolicy","RemoteSigned","-Command","Invoke-Pester -Passthru"
             ],
             "problemMatcher": {
                "owner": "pester",
