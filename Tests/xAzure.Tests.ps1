@@ -1,12 +1,12 @@
 Import-Module "$(Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path))\Jones.psm1"
 
-InModuleScope xAzure {}
+
 
 ##############################
 # Script Analyzer tests
 ##############################
 $here = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
-$scriptsModules = Get-ChildItem $here -Include *.psd1, *.psm1, *.ps1 -Exclude *.tests.ps1,*uild.ps1 -Recurse
+$scriptsModules = Get-ChildItem $here -Include *.psd1, *.psm1, *.ps1 -Exclude *MSFT_*.psm1,.tests.ps1,*uild.ps1 -Recurse | Where-Object {$_.FullName -notlike "*Examples*"}
 
 Describe 'General - Testing all scripts and modules against the Script Analyzer Rules' {
 	Context "Checking files to test exist and Invoke-ScriptAnalyzer cmdLet is available" {
