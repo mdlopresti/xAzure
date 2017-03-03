@@ -1,0 +1,28 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "0.1.0",
+    "command": "${env.windir}\\sysnative\\windowspowershell\\v1.0\\PowerShell.exe",
+    "isShellCommand": true,
+    "showOutput": "always",
+    "suppressTaskName": true,
+    "tasks": [
+        {
+            "taskName": "Test",
+            "isTestCommand": true,
+            "args": [
+                "-ExecutionPolicy","RemoteSigned","-Command","Invoke-Pester -CodeCoverage 'C:\\Program Files\\WindowsPowerShell\\Module\\Jones\\Jones.psm1' -Passthru"
+            ],
+            "problemMatcher": {
+               "owner": "pester",
+                "pattern": {
+                    "regexp": "(.*);(.*);(.*)",
+                    "file": 1,
+                    "line": 2,
+                    "message": 3
+                }
+            },
+            "showOutput": "always"
+        }
+    ]
+}

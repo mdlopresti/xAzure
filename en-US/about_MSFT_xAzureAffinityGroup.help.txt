@@ -1,0 +1,14 @@
+PARAMETER Name
+Specifies a name for the new affinity group that is unique to the subscription.
+
+PARAMETER Ensure
+Specifies whether the Azure Affinity Group should be present or absent.
+
+PARAMETER Location
+Specifies the geographical location of the data center where the affinity group will be created.  This must match a value from the Name property of objects returned by Get-AzureLocation
+
+PARAMETER Description
+Specifies a description for the affinity group. The description may be up to 1024 characters in length. 
+
+PARAMETER Label
+Specifies a label for the affinity group. The label may be up to 100 characters in length. 
