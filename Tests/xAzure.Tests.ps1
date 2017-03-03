@@ -36,3 +36,15 @@ Describe 'General - Testing all scripts and modules against the Script Analyzer 
 		}
 	}
 }
+
+##############################
+# Help check test
+##############################
+Foreach ($resource in (Get-DscResource -Module xAzure | Select-Object -ExpandProperty Name)) {
+        Describe "Checking Help file on $resource" {
+            $help = Get-Help *$resource*
+            It "Should have help" {
+                $help | should not benullorempty
+            }
+        }
+    }
