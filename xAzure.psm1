@@ -90,7 +90,7 @@ class xAzureAffinityGroup {
         return $bool
     }
 
-    [MSFT_xAzureAffinityGroup] Get() {
+    [xAzureAffinityGroup] Get() {
         $CurrentSubscription = Get-AzureSubscription -Current
         Write-Verbose "The Azure subscription ID is $($CurrentSubscription.SubscriptionID)"
 
